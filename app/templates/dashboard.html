@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-header">
+    <h1>Welcome, {{ current_user.name }}</h1>
+    <p>{{ business.name }} · {{ business.business_type }}</p>
+  </div>
+
+  <div class="card dashboard-grid">
+    <div class="metric">
+      <span>Sales</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(sales_total) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Purchases</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(purchases_total) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Expenses</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(expenses_total) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Profit</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(profit) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Stock Alerts</span>
+      <strong>{{ stock_alerts }}</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Project roadmap progress</h2>
+    <ul class="roadmap-list">
+      <li>Project setup: complete</li>
+      <li>Database models: complete</li>
+      <li>Authentication: complete</li>
+      <li>Business settings: complete</li>
+      <li>Roles & permissions: complete</li>
+      <li>Products & inventory: complete</li>
+      <li>Sales & invoices: complete</li>
+      <li>Purchases, expenses & payments: current</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Adjust Inventory{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="card wide-form">
+    <h2>Stock Adjustment</h2>
+    <form method="post" class="form-grid">
+      <div>
+        <label>Product</label>
+        <select name="product_id" required>
+          <option value="">-- Select Product --</option>
+          {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }} ({{ product.sku }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>Type</label>
+        <select name="movement_type">
+          <option value="stock_in">Stock In</option>
+          <option value="stock_out">Stock Out</option>
+        </select>
+      </div>
+      <div>
+        <label>Quantity</label>
+        <input type="number" step="0.01" name="quantity" required>
+      </div>
+      <div>
+        <label>Reference</label>
+        <input type="text" name="reference_type" value="manual adjustment">
+      </div>
+      <div class="full-width">
+        <button type="submit" class="button primary">Save Adjustment</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Business Management App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <nav class="topbar">
+      <div class="brand">BusinessFlow</div>
+      <div class="nav-links">
+        <a href="{{ url_for('main.index') }}">Home</a>
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('main.products') }}">Products</a>
+          <a href="{{ url_for('main.inventory') }}">Inventory</a>
+          <a href="{{ url_for('main.customers') }}">Customers</a>
+          <a href="{{ url_for('main.suppliers') }}">Suppliers</a>
+          <a href="{{ url_for('main.sales') }}">Sales</a>
+          <a href="{{ url_for('main.purchases') }}">Purchases</a>
+          <a href="{{ url_for('main.expenses') }}">Expenses</a>
+          <a href="{{ url_for('main.payments') }}">Payments</a>
+          <a href="{{ url_for('main.returns') }}">Returns</a>
+          <a href="{{ url_for('main.ledger') }}">Ledger</a>
+          <a href="{{ url_for('main.employees') }}">Employees</a>
+          <a href="{{ url_for('main.payroll') }}">Payroll</a>
+          <a href="{{ url_for('main.reports') }}">Reports</a>
+          <a href="{{ url_for('main.settings') }}">Settings</a>
+          <a href="{{ url_for('main.roles') }}">Roles</a>
+          <a href="{{ url_for('auth.logout') }}">Logout</a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}">Login</a>
+          <a href="{{ url_for('auth.register') }}">Register</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

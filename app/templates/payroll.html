@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Payroll{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-header">
+    <h1>Payroll</h1>
+    <p>Track monthly salaries, allowances, deductions, and net pay.</p>
+  </div>
+
+  <div class="card wide-form">
+    <form method="post">
+      <div class="form-grid">
+        <div>
+          <label for="employee_id">Employee</label>
+          <select id="employee_id" name="employee_id" required>
+            <option value="">Select employee</option>
+            {% for employee in employees %}
+              <option value="{{ employee.id }}">{{ employee.name }} ({{ employee.role }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="payroll_month">Month</label>
+          <input type="text" id="payroll_month" name="payroll_month" placeholder="January" required>
+        </div>
+        <div>
+          <label for="payroll_year">Year</label>
+          <input type="number" id="payroll_year" name="payroll_year" min="2024" value="2026" required>
+        </div>
+        <div>
+          <label for="base_salary">Base Salary</label>
+          <input type="number" id="base_salary" name="base_salary" min="0" step="0.01" required>
+        </div>
+        <div>
+          <label for="allowances">Allowances</label>
+          <input type="number" id="allowances" name="allowances" min="0" step="0.01" value="0">
+        </div>
+        <div>
+          <label for="deductions">Deductions</label>
+          <input type="number" id="deductions" name="deductions" min="0" step="0.01" value="0">
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="button primary" type="submit">Save payroll</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Payroll ledger</h2>
+    {% if entries %}
+      <table class="data-table">
+        <thead>
+          <tr><th>Employee</th><th>Month</th><th>Base</th><th>Allow.</th><th>Deductions</th><th>Net</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for entry in entries %}
+            <tr>
+              <td>{{ entry.employee.name }}</td>
+              <td>{{ entry.payroll_month }} {{ entry.payroll_year }}</td>
+              <td>{{ entry.base_salary }}</td>
+              <td>{{ entry.allowances }}</td>
+              <td>{{ entry.deductions }}</td>
+              <td>{{ entry.net_salary }}</td>
+              <td>{{ entry.status }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">No payroll entries recorded yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

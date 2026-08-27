@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-header">
+    <h1>Business reports</h1>
+    <p>{{ business.name }} summary and recent activity.</p>
+  </div>
+
+  <div class="card dashboard-grid">
+    <div class="metric">
+      <span>Sales</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(metrics.sales_total) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Purchases</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(metrics.purchases_total) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Expenses</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(metrics.expenses_total) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Net Profit</span>
+      <strong>{{ business.currency }} {{ '%.2f'|format(metrics.profit) }}</strong>
+    </div>
+    <div class="metric">
+      <span>Stock Alerts</span>
+      <strong>{{ metrics.stock_alerts }}</strong>
+    </div>
+  </div>
+
+  <div class="roles-layout" style="margin-top: 1.5rem;">
+    <div class="card">
+      <h2>Recent sales</h2>
+      {% if sales %}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sale in sales %}
+              <tr>
+                <td>{{ sale.invoice_no }}</td>
+                <td>{{ sale.customer.name }}</td>
+                <td>{{ sale.total }}</td>
+                <td>{{ sale.status }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="muted">No sales recorded yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Low stock</h2>
+      {% if low_stock %}
+        <ul class="movement-list">
+          {% for item in low_stock %}
+            <li>
+              <strong>{{ item.product.name }}</strong>
+              <span>Available: {{ item.quantity }} / Min: {{ item.product.min_stock }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No stock alerts.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="roles-layout" style="margin-top: 1.5rem;">
+    <div class="card">
+      <h2>Recent purchases</h2>
+      {% if purchases %}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Purchase</th>
+              <th>Supplier</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for purchase in purchases %}
+              <tr>
+                <td>{{ purchase.purchase_no }}</td>
+                <td>{{ purchase.supplier.name }}</td>
+                <td>{{ purchase.total }}</td>
+                <td>{{ purchase.status }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="muted">No purchases recorded yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Recent expenses</h2>
+      {% if expenses %}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for expense in expenses %}
+              <tr>
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.amount }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="muted">No expenses recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

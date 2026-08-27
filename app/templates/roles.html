@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Roles & Permissions{% endblock %}
+
+{% block content %}
+<section class="page-shell roles-layout">
+  <div class="card">
+    <h2>Create Role</h2>
+    <form method="post" class="form-grid">
+      <div class="full-width">
+        <label>Role Name</label>
+        <input type="text" name="role_name" placeholder="Manager, Staff, Supervisor" required>
+      </div>
+
+      <div class="full-width permission-list">
+        {% for permission in permissions %}
+        <label class="checkbox-item">
+          <input type="checkbox" name="permissions" value="{{ permission.id }}">
+          <span>{{ permission.code }} - {{ permission.description }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <div class="full-width">
+        <button type="submit" class="button primary">Add Role</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Current Roles</h2>
+    {% if roles %}
+      <div class="role-list">
+        {% for role in roles %}
+          <div class="role-item">
+            <strong>{{ role.name }}</strong>
+            <ul>
+              {% for rp in role.role_permissions %}
+                <li>{{ rp.permission.code }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No roles yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Register Business{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+  <form class="auth-card" method="post">
+    <h2>Register Business</h2>
+
+    <label>Business Name</label>
+    <input type="text" name="business_name" required>
+
+    <label>Business Type</label>
+    <select name="business_type">
+      <option value="Retail">Retail</option>
+      <option value="Wholesale">Wholesale</option>
+      <option value="Services">Services</option>
+      <option value="Pharmacy">Pharmacy</option>
+      <option value="General">General</option>
+    </select>
+
+    <label>Owner Name</label>
+    <input type="text" name="owner_name" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <button type="submit" class="button primary">Create Account</button>
+    <p class="muted">Already registered? <a href="{{ url_for('auth.login') }}">Login</a></p>
+  </form>
+</section>
+{% endblock %}

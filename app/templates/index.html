@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Business Management Software{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <h1>General Business Management Software</h1>
+    <p>
+      A multi-business, tenant-aware application for sales, inventory, purchases,
+      customers, suppliers, expenses, payments, and reporting.
+    </p>
+    <div class="cta-row">
+      <a class="button primary" href="{{ url_for('auth.register') }}">Create Business</a>
+      <a class="button secondary" href="{{ url_for('auth.login') }}">Login</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="card">
+    <h3>Business Isolation</h3>
+    <p>Each tenant keeps its own data with business-level security checks.</p>
+  </div>
+  <div class="card">
+    <h3>Inventory & Sales</h3>
+    <p>Track stock movements, invoices, returns, and product pricing.</p>
+  </div>
+  <div class="card">
+    <h3>Reporting</h3>
+    <p>Generate sales, purchases, expenses, and profit/loss dashboards.</p>
+  </div>
+</section>
+{% endblock %}

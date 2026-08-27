@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Employees{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="page-header">
+    <h1>Employees</h1>
+    <p>Manage staff records and salary setup.</p>
+  </div>
+
+  <div class="card wide-form">
+    <form method="post">
+      <div class="form-grid">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="role">Role</label>
+          <input type="text" id="role" name="role" placeholder="Cashier, HR, Manager">
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" name="phone">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div>
+          <label for="salary">Monthly Salary</label>
+          <input type="number" id="salary" name="salary" min="0" step="0.01">
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="button primary" type="submit">Add employee</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Employee list</h2>
+    {% if employees %}
+      <table class="data-table">
+        <thead>
+          <tr><th>Name</th><th>Role</th><th>Phone</th><th>Salary</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for employee in employees %}
+            <tr>
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.role }}</td>
+              <td>{{ employee.phone or '-' }}</td>
+              <td>{{ employee.salary }}</td>
+              <td>{{ employee.status }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">No employees added yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

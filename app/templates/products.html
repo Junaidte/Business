@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Products & Services{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="card wide-form">
+    <h2>{% if selected %}Edit Product{% else %}Add Product{% endif %}</h2>
+    <form method="post" class="form-grid" action="{% if selected %}{{ url_for('main.edit_product', product_id=selected.id) }}{% else %}{{ url_for('main.products') }}{% endif %}">
+      <div>
+        <label>Name</label>
+        <input type="text" name="name" value="{{ selected.name if selected else '' }}" required>
+      </div>
+      <div>
+        <label>SKU</label>
+        <input type="text" name="sku" value="{{ selected.sku if selected else '' }}" required>
+      </div>
+      <div>
+        <label>Type</label>
+        <select name="product_type">
+          <option value="product" {% if selected and selected.product_type == 'product' %}selected{% endif %}>Product</option>
+          <option value="service" {% if selected and selected.product_type == 'service' %}selected{% endif %}>Service</option>
+        </select>
+      </div>
+      <div>
+        <label>Category</label>
+        <select name="category_id">
+          <option value="">-- Select Category --</option>
+          {% for category in categories %}
+            <option value="{{ category.id }}" {% if selected and selected.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>Unit</label>
+        <select name="unit_id">
+          <option value="">-- Select Unit --</option>
+          {% for unit in units %}
+            <option value="{{ unit.id }}" {% if selected and selected.unit_id == unit.id %}selected{% endif %}>{{ unit.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>New Category</label>
+        <input type="text" name="category_name" placeholder="Optional category">
+      </div>
+      <div>
+        <label>New Unit</label>
+        <input type="text" name="unit_name" placeholder="Optional unit">
+      </div>
+      <div>
+        <label>Purchase Price</label>
+        <input type="number" step="0.01" name="purchase_price" value="{{ selected.purchase_price if selected else 0 }}">
+      </div>
+      <div>
+        <label>Sale Price</label>
+        <input type="number" step="0.01" name="sale_price" value="{{ selected.sale_price if selected else 0 }}">
+      </div>
+      <div>
+        <label>Tax Rate %</label>
+        <input type="number" step="0.01" name="tax_rate" value="{{ selected.tax_rate if selected else 0 }}">
+      </div>
+      <div>
+        <label>Minimum Stock</label>
+        <input type="number" step="0.01" name="min_stock" value="{{ selected.min_stock if selected else 0 }}">
+      </div>
+      <div class="full-width">
+        <button type="submit" class="button primary">{% if selected %}Update Product{% else %}Create Product{% endif %}</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Product List</h2>
+    {% if products %}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>SKU</th>
+          <th>Type</th>
+          <th>Sale Price</th>
+          <th>Stock</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>{{ product.sku }}</td>
+          <td>{{ product.product_type }}</td>
+          <td>{{ product.sale_price }}</td>
+          <td>{{ product.inventory.quantity if product.inventory else 0 }}</td>
+          <td><a href="{{ url_for('main.edit_product', product_id=product.id) }}">Edit</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No products added yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

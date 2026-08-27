@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="card invoice-card">
+    <div class="invoice-header">
+      <div>
+        <h2>{{ sale.business.name }}</h2>
+        <p>{{ sale.business.business_type }}</p>
+      </div>
+      <div class="invoice-meta">
+        <strong>Invoice: {{ sale.invoice_no }}</strong>
+        <span>{{ sale.sold_at.strftime('%Y-%m-%d') if sale.sold_at else 'N/A' }}</span>
+      </div>
+    </div>
+
+    <div class="invoice-contact">
+      <div>
+        <h4>Customer</h4>
+        <p>{{ sale.customer.name }}</p>
+        <p>{{ sale.customer.phone or '-' }}</p>
+      </div>
+      <div>
+        <h4>Business</h4>
+        <p>{{ sale.business.name }}</p>
+        <p>{{ sale.business.email or '-' }}</p>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Tax</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in sale.items %}
+        <tr>
+          <td>{{ item.description }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.unit_price }}</td>
+          <td>{{ item.tax }}</td>
+          <td>{{ item.line_total }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="invoice-summary">
+      <div><span>Subtotal</span><strong>{{ sale.subtotal }}</strong></div>
+      <div><span>Tax</span><strong>{{ sale.tax }}</strong></div>
+      <div><span>Total</span><strong>{{ sale.total }}</strong></div>
+      <div><span>Due</span><strong>{{ sale.due }}</strong></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+<section class="page-shell inventory-layout">
+  <div class="card">
+    <h2>Inventory</h2>
+    <div class="action-row">
+      <a href="{{ url_for('main.adjust_inventory') }}" class="button primary">Adjust Stock</a>
+    </div>
+    {% if inventory_items %}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>SKU</th>
+          <th>Quantity</th>
+          <th>Min Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in inventory_items %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.product.sku }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.product.min_stock }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No inventory entries yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Recent Movements</h2>
+    {% if movement_logs %}
+    <ul class="movement-list">
+      {% for log in movement_logs %}
+      <li>
+        <strong>{{ log.product.name }}</strong>
+        <span>{{ log.movement_type }} : {{ log.quantity }}</span>
+        <small>{{ log.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No stock movement history yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

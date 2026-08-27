@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Customers{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="card wide-form">
+    <h2>Add Customer</h2>
+    <form method="post" class="form-grid">
+      <div>
+        <label>Name</label>
+        <input type="text" name="name" required>
+      </div>
+      <div>
+        <label>Phone</label>
+        <input type="text" name="phone">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email">
+      </div>
+      <div>
+        <label>Opening Balance</label>
+        <input type="number" step="0.01" name="opening_balance" value="0">
+      </div>
+      <div class="full-width">
+        <label>Address</label>
+        <textarea name="address"></textarea>
+      </div>
+      <div class="full-width">
+        <button type="submit" class="button primary">Save Customer</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Customer List</h2>
+    {% if customers %}
+    <table class="data-table">
+      <thead>
+        <tr><th>Name</th><th>Phone</th><th>Email</th><th>Opening Balance</th></tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        <tr>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.phone or '-' }}</td>
+          <td>{{ customer.email or '-' }}</td>
+          <td>{{ customer.opening_balance }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No customers yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

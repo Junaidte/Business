@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales & Invoices{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="card wide-form">
+    <h2>Create Sale</h2>
+    <form method="post" class="form-grid">
+      <div>
+        <label>Customer</label>
+        <select name="customer_id" required>
+          <option value="">-- Select Customer --</option>
+          {% for customer in customers %}
+          <option value="{{ customer.id }}">{{ customer.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>Product</label>
+        <select name="product_id" required>
+          <option value="">-- Select Product --</option>
+          {% for product in products %}
+          <option value="{{ product.id }}">{{ product.name }} ({{ product.sku }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>Quantity</label>
+        <input type="number" step="0.01" name="quantity" value="1" required>
+      </div>
+      <div>
+        <label>Unit Price</label>
+        <input type="number" step="0.01" name="unit_price" value="0" required>
+      </div>
+      <div class="full-width">
+        <button type="submit" class="button primary">Save Sale</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Sales History</h2>
+    {% if sales %}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Invoice</th>
+          <th>Customer</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sale in sales %}
+        <tr>
+          <td>{{ sale.invoice_no }}</td>
+          <td>{{ sale.customer.name }}</td>
+          <td>{{ sale.total }}</td>
+          <td>{{ sale.status }}</td>
+          <td><a href="{{ url_for('main.sale_invoice', sale_id=sale.id) }}">Invoice</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No sales yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
